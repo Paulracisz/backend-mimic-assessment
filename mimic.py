@@ -39,7 +39,6 @@ def create_mimic_dict(filename):
             if previousWord not in wordDict:
                 # if previousWord isn't there add it,
                 wordDict[previousWord] = [word]
-                word
             else:
                 # else append the new previousWord
                 wordDict[previousWord].append(word)
