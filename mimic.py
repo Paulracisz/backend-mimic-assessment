@@ -30,20 +30,20 @@ def create_mimic_dict(filename):
         """ https://github.com/geetarista/google-python-exercises/blob/master/basic/solution/mimic.py We re-wrote 
         the answer with our own variables, making sure that we understood the solution"""
         # see comments below for our demonstration of understanding! VVVV
-        wordDict = {}
+        mimic_dict = {}
         words = textfile.read()
         splitWords = words.split()
         previousWord = ''
         for word in splitWords:
             # check to see if word is already in dict
-            if previousWord not in wordDict:
+            if previousWord not in mimic_dict:
                 # if previousWord isn't there add it,
-                wordDict[previousWord] = [word]
+                mimic_dict[previousWord] = [word]
             else:
                 # else append the new previousWord
-                wordDict[previousWord].append(word)
+                mimic_dict[previousWord].append(word)
                 previousWord = word
-        return print(wordDict)
+        return mimic_dict
     """Returns a dict mapping each word to a list of words which follow it.
     For example:
         Input: "I am a software developer, and I don't care who knows"
@@ -107,8 +107,15 @@ def print_mimic(mimic_dict, start_word):
         - Randomly select a new word from the next-list
         - Repeat this process 200 times
     """
-    # +++your code here+++
-    pass
+    # get a random word from the mimic dictionary
+    start_word = random.choice(list(mimic_dict.keys()))
+    # grab 200 words
+    for i in range(200):
+        print(start_word, end=" ")  # put a space on the last word
+        nextWordList = mimic_dict.get(start_word)
+        if nextWordList is None:
+            nextWordList = mimic_dict[""]
+        start_word = random.choice(nextWordList)
 
 
 # Provided main(), calls mimic_dict() and print_mimic()
