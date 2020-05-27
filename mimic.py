@@ -19,13 +19,31 @@ You can try adding in line breaks around 70 columns so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = "Paul Racisz, Ruben Espino"
 
 import random
 import sys
 
 
 def create_mimic_dict(filename):
+    with open(filename, "r") as textfile:
+        """ https://github.com/geetarista/google-python-exercises/blob/master/basic/solution/mimic.py We re-wrote 
+        the answer with our own variables, making sure that we understood the solution"""
+        # see comments below for our demonstration of understanding! VVVV
+        mimic_dict = {}
+        words = textfile.read()
+        splitWords = words.split()
+        previousWord = ''
+        for word in splitWords:
+            # check to see if word is already in dict
+            if previousWord not in mimic_dict:
+                # if previousWord isn't there add it,
+                mimic_dict[previousWord] = [word]
+            else:
+                # else append the new previousWord
+                mimic_dict[previousWord].append(word)
+                previousWord = word
+        return mimic_dict
     """Returns a dict mapping each word to a list of words which follow it.
     For example:
         Input: "I am a software developer, and I don't care who knows"
@@ -43,8 +61,42 @@ def create_mimic_dict(filename):
                 "who" : ["knows"]
             }
     """
-    # +++your code here+++
-    pass
+    """
+
+        PART A:
+    1.) Open the file
+    2.) make an empty dictionary
+    3.) set the dictionary to a list of the words that come after each word
+        "my dog is small"
+         0  1   2  3
+         i[0] = key
+         [my, dog, is, small]
+         i[1] = value
+         {"": [my] "my": ["dog", "sister"] "dog": [is]
+         "is" :[small] "sister": [hates]
+         "hates": [me] "me": ""}
+        "my sister hates me"
+        duplicate key ^^^
+        # look up how to add keys and values to dictionaries
+    4.) find a duplicate in the dictionary
+    5.) if a duplicate exists, do not add a key
+    6.) add iterator to the dictionary as the key
+    7.) add the next word as a value
+    8.) loop through every word in the file
+    9.) make another list with every word in the file
+    10.) compare lists and add the value as
+    the word after iterator word for each word.
+
+        PART B:
+    4.) Print a word
+    5.) look for words come next
+    6.) pick one at random to replace the next word.
+    7.) return the next jumbled version of the txt file.
+
+
+    GOAL: Jumbled version of the file inserting
+    random words that came after the original word
+    """
 
 
 def print_mimic(mimic_dict, start_word):
@@ -55,8 +107,15 @@ def print_mimic(mimic_dict, start_word):
         - Randomly select a new word from the next-list
         - Repeat this process 200 times
     """
-    # +++your code here+++
-    pass
+    # get a random word from the mimic dictionary
+    start_word = random.choice(list(mimic_dict.keys()))
+    # grab 200 words
+    for i in range(200):
+        print(start_word, end=" ")  # put a space on the last word
+        nextWordList = mimic_dict.get(start_word)
+        if nextWordList is None:
+            nextWordList = mimic_dict[""]
+        start_word = random.choice(nextWordList)
 
 
 # Provided main(), calls mimic_dict() and print_mimic()
